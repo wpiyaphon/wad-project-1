@@ -4,38 +4,6 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 export default function GradeTable({ semester, rows, semesterGPA }) {
 
-    // const grades = {
-    //     'A': 4,
-    //     'A-': 3.75,
-    //     'B+': 3.25,
-    //     'B': 3,
-    //     'B-': 2.75,
-    //     'C+': 2.25,
-    //     'C': 2,
-    //     'C-': 1.75,
-    //     'D': 1,
-    //     'F': 0,
-    //     'W': 0,
-    // }
-
-    // function calculateSemesterGPA() {
-    //     let totalGrade = 0
-    //     let totalCourse = 0
-
-    //     rows.map((row) => {
-    //         if (row.grade !== 'W') {
-    //             totalGrade += grades[row.grade]
-    //             totalCourse += 1
-    //         }
-    //         return 0
-    //     })
-
-    //     if (totalCourse === 0 && totalGrade === 0) {
-    //         return 0
-    //     }
-    //     return (totalGrade / totalCourse).toFixed(2)
-    // }
-
     return (
         <TableContainer component={Paper} elevation={2}>
             <Table aria-label="simple table">

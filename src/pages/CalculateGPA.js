@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid, Stack, Snackbar, Alert, Typography } from '@mui/material'
 import GradeForm from '../components/GradeForm';
 import GradeTable from '../components/GradeTable';
+import LineChart from '../components/LineChart';
 
 export default function CalculateGPA() {
 
@@ -11,7 +12,7 @@ export default function CalculateGPA() {
     }
 
     const [firstSemesterRows, setFirstSemesterRows] = React.useState([]);
-    const [secondSemesterRows, setSecondSemesterRows] = React.useState([]);
+    const [secondSemesterRows, setSecondSemesterRows] = React.useState([{ semester: '1/2022', subject: 'CSX 4107 Web Application Development', grade: 'A' }]);
     const [thirdSemesterRows, setThirdSemesterRows] = React.useState([]);
 
     const [firstSemGPA, setFirstSemGPA] = React.useState(0);
@@ -20,6 +21,7 @@ export default function CalculateGPA() {
     const [secondSemCourse, setSecondSemCourse] = React.useState(0);
     const [thirdSemGPA, setThirdSemGPA] = React.useState(0);
     const [thirdSemCourse, setThirdSemCourse] = React.useState(0);
+    const [totalGPA, setTotalGPA] = React.useState(4);
 
     const grades = {
         'A': 4,
@@ -38,7 +40,7 @@ export default function CalculateGPA() {
     // Add new row
     function handleAdd(data) {
         const { semester, subject, addedGrade } = data;
-        if (semester === '1/2019') {
+        if (semester === '1/2022') {
             if (!firstSemesterRows.some((row) => row.subject === subject)) {
                 setFirstSemesterRows([...firstSemesterRows, createData(semester, subject, addedGrade)]);
                 if (addedGrade !== 'W') {
@@ -48,7 +50,7 @@ export default function CalculateGPA() {
             } else {
                 setOpen(true);
             }
-        } else if (semester === '2/2019') {
+        } else if (semester === '2/2022') {
             if (!secondSemesterRows.some((row) => row.subject === subject)) {
                 setSecondSemesterRows([...secondSemesterRows, createData(semester, subject, addedGrade)]);
                 if (addedGrade !== 'W') {
@@ -58,7 +60,7 @@ export default function CalculateGPA() {
             } else {
                 setOpen(true);
             }
-        } else if (semester === '3/2019') {
+        } else if (semester === '3/2022') {
             if (!thirdSemesterRows.some((row) => row.subject === subject)) {
                 setThirdSemesterRows([...thirdSemesterRows, createData(semester, subject, addedGrade)]);
                 if (addedGrade !== 'W') {
@@ -80,31 +82,54 @@ export default function CalculateGPA() {
         setOpen(false);
     };
 
-    const totalFirstGPA = (firstSemGPA/firstSemCourse);
-    const totalSecondGPA = (secondSemGPA/secondSemCourse);
-    const totalThirdGPA = (thirdSemGPA/thirdSemCourse);
+    React.useEffect(() => {
 
-    const totalGPA = () => {
-        let total = 0
-        let semesterCount = 0
-        if (totalFirstGPA > 0) {
-            total += totalFirstGPA
-            semesterCount += 1
-        } 
-        if ( totalSecondGPA > 0) {
-            total += totalSecondGPA
-            semesterCount += 1
-        }
-        if (totalThirdGPA > 0) {
-            total += totalThirdGPA
-            semesterCount += 1
-        }
-        if (semesterCount === 0) {
-            return 0;
-        }
-        return (total/semesterCount);
-    }
+        firstSemesterRows.map(row => {
+            if (row.grade !== 'W') {
+                setFirstSemGPA(firstSemGPA + grades[row.grade])
+                setFirstSemCourse(firstSemCourse + 1);
+            }
+        });
 
+        secondSemesterRows.map(row => {
+            if (row.grade !== 'W') {
+                setSecondSemGPA(secondSemGPA + grades[row.grade])
+                setSecondSemCourse(secondSemCourse + 1);
+            }
+        });
+
+        thirdSemesterRows.map(row => {
+            if (row.grade !== 'W') {
+                setThirdSemGPA(thirdSemGPA + grades[row.grade])
+                setThirdSemCourse(thirdSemCourse + 1);
+            }
+        });
+
+    }, [firstSemesterRows, secondSemesterRows, thirdSemesterRows]);
+
+    React.useEffect(() => {
+        let tempGPA = 0;
+        let tempSem = 0;
+
+        if (firstSemCourse > 0) {
+            tempGPA += (firstSemGPA / firstSemCourse);
+            tempSem += 1;
+        }
+        if (secondSemCourse > 0) {
+            tempGPA += (secondSemGPA / secondSemCourse);
+            tempSem += 1;
+        }
+        if (thirdSemCourse > 0) {
+            tempGPA += (thirdSemGPA / thirdSemCourse);
+            tempSem += 1;
+        }
+        if (tempSem === 0) {
+            setTotalGPA(0);
+        } else {
+            setTotalGPA((tempGPA / tempSem));
+        }
+
+    }, [firstSemCourse, secondSemCourse, thirdSemCourse])
 
     return (
         <>
@@ -114,7 +139,7 @@ export default function CalculateGPA() {
                 </Grid>
                 <Grid item xs={12} md={7}>
                     <Stack direction="row">
-                        <Typography variant="h5">Total GPA: {totalGPA().toFixed(2)}</Typography>
+                        <Typography variant="h5">Total GPA: {totalGPA.toFixed(2)}</Typography>
                     </Stack>
                 </Grid>
             </Grid>
@@ -127,12 +152,15 @@ export default function CalculateGPA() {
                             The course already exists!
                         </Alert>
                     </Snackbar>
+                    <Grid item xs={12} md={12}>
+                        <LineChart firstSemGPA={(firstSemGPA / firstSemCourse)} secondSemGPA={(secondSemGPA / secondSemCourse)} thirdSemGPA={(thirdSemGPA / thirdSemCourse)} />
+                    </Grid>
                 </Grid>
                 <Grid item xs={12} md={7}>
                     <Stack direction="column" spacing={2}>
-                        <GradeTable semester='1/2019' rows={firstSemesterRows} semesterGPA={totalFirstGPA.toFixed(2)}></GradeTable>
-                        <GradeTable semester='2/2019' rows={secondSemesterRows} semesterGPA={totalSecondGPA.toFixed(2)}></GradeTable>
-                        <GradeTable semester='3/2019' rows={thirdSemesterRows} semesterGPA={totalThirdGPA.toFixed(2)}></GradeTable>
+                        <GradeTable semester='1/2022' rows={firstSemesterRows} semesterGPA={(firstSemGPA / firstSemCourse).toFixed(2)}></GradeTable>
+                        <GradeTable semester='2/2022' rows={secondSemesterRows} semesterGPA={(secondSemGPA / secondSemCourse).toFixed(2)}></GradeTable>
+                        <GradeTable semester='3/2022' rows={thirdSemesterRows} semesterGPA={(thirdSemGPA / thirdSemCourse).toFixed(2)}></GradeTable>
                     </Stack>
                 </Grid>
             </Grid>

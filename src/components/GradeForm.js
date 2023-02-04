@@ -11,7 +11,7 @@ import { CSCourses, ITCourses } from '../assets'
 
 const MAJOR_OPTIONS = ['CS', 'IT']
 
-const SEMESTER_OPTIONS = ['1/2019', '2/2019', '3/2019']
+const SEMESTER_OPTIONS = ['1/2022', '2/2022', '3/2022']
 
 const GROUP_COURSE_CS_OPTIONS = CSCourses.curriculum.subjects.map(subject => subject)
 const GROUP_COURSE_IT_OPTIONS = ITCourses.curriculum.subjects.map(subject => subject)
