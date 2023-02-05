@@ -110,38 +110,41 @@ export default function GradeForm({ onAdd }) {
                 </Grid>
             </Stack>
 
-            <Stack direction="row" sx={{ pb: 2 }} spacing={2}>
-                <Grid item xs={12} md={6}>
-                    <RHFSelect name="groupCourse" label="Group Course" disabled={!major} onChange={handleChangeGroupCourse}>
-                        {courseOptions().map((option) => (
-                            <MenuItem
-                                key={option.groupName}
-                                value={option.groupName}
-                            >
-                                {option.groupName}
-                            </MenuItem>
-                        ))}
-                    </RHFSelect>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <RHFSelect name="subject" label="Subject" disabled={!groupCourse}>
-                        {!!groupCourse ? courseOptions().find((subject) => subject.groupName === groupCourse)
-                            .subjects.map((option) => (
+            <Stack direction="row" sx={{ pb: 2 }}>
+                <Grid container direction="row" spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <RHFSelect name="groupCourse" label="Group Course" disabled={!major} onChange={handleChangeGroupCourse}>
+                            {courseOptions().map((option) => (
                                 <MenuItem
-                                    key={option.code.concat(' ', option.name)}
-                                    value={option.code.concat(' ', option.name)}
+                                    key={option.groupName}
+                                    value={option.groupName}
                                 >
-                                    {option.code.concat(' ', option.name)}
+                                    {option.groupName}
                                 </MenuItem>
-                            )) :
-                            (
-                                <MenuItem
-                                >
-                                    None
-                                </MenuItem>
-                            )}
-                    </RHFSelect>
+                            ))}
+                        </RHFSelect>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <RHFSelect name="subject" label="Subject" disabled={!groupCourse}>
+                            {!!groupCourse ? courseOptions().find((subject) => subject.groupName === groupCourse)
+                                .subjects.map((option) => (
+                                    <MenuItem
+                                        key={option.code.concat(' ', option.name)}
+                                        value={option.code.concat(' ', option.name)}
+                                    >
+                                        {option.code.concat(' ', option.name)}
+                                    </MenuItem>
+                                )) :
+                                (
+                                    <MenuItem
+                                    >
+                                        None
+                                    </MenuItem>
+                                )}
+                        </RHFSelect>
+                    </Grid>
                 </Grid>
+
             </Stack>
 
             <Stack direction="row" sx={{ pb: 2 }}>

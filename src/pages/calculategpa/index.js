@@ -2,11 +2,11 @@ import React from 'react'
 import { useLocalStorage } from 'react-use';
 // components
 import { Grid, Stack, Snackbar, Alert, Typography } from '@mui/material'
-import GradeForm from '../components/GradeForm';
-import GradeTable from '../components/GradeTable';
-import LineChart from '../components/LineChart';
+import GradeForm from '../../components/GradeForm';
+import GradeTable from '../../components/GradeTable';
+import LineChart from '../../components/LineChart';
 
-export default function CalculateGPA() {
+export default function CalculateGPAPage() {
 
     let [firstSemesterRows, setFirstSemesterRows] = useLocalStorage('firstSemesterRows', [])
     let [secondSemesterRows, setSecondSemesterRows] = useLocalStorage('secondSemesterRows', [{ semester: '1/2022', subject: 'CSX 4107 Web Application Development', grade: 'A' }])
