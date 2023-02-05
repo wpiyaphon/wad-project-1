@@ -83,8 +83,8 @@ export default function GradeForm({ onAdd }) {
 
     return (
         <FormProvider {...methods}>
-            <Stack direction="row" spacing={2} sx={{pb: 2}}>
-                <Grid item xs={12} md={2}>
+            <Stack direction="row" sx={{ pb: 2 }} spacing={2}>
+                <Grid item xs={12} md={6}>
                     <RHFSelect name="major" label="Major" onChange={handleChangeMajor}>
                         {MAJOR_OPTIONS.map((option) => (
                             <MenuItem
@@ -96,7 +96,22 @@ export default function GradeForm({ onAdd }) {
                         ))}
                     </RHFSelect>
                 </Grid>
-                <Grid item xs={12} md={10}>
+                <Grid item xs={12} md={6}>
+                    <RHFSelect name="semester" label="Semester">
+                        {SEMESTER_OPTIONS.map((option) => (
+                            <MenuItem
+                                key={option}
+                                value={option}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </RHFSelect>
+                </Grid>
+            </Stack>
+
+            <Stack direction="row" sx={{ pb: 2 }} spacing={2}>
+                <Grid item xs={12} md={6}>
                     <RHFSelect name="groupCourse" label="Group Course" disabled={!major} onChange={handleChangeGroupCourse}>
                         {courseOptions().map((option) => (
                             <MenuItem
@@ -108,10 +123,7 @@ export default function GradeForm({ onAdd }) {
                         ))}
                     </RHFSelect>
                 </Grid>
-            </Stack>
-
-            <Stack direction="row" sx={{pb: 2}}>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={6}>
                     <RHFSelect name="subject" label="Subject" disabled={!groupCourse}>
                         {!!groupCourse ? courseOptions().find((subject) => subject.groupName === groupCourse)
                             .subjects.map((option) => (
@@ -132,20 +144,8 @@ export default function GradeForm({ onAdd }) {
                 </Grid>
             </Stack>
 
-            <Stack direction="row" spacing={2} sx={{pb: 2}}>
-                <Grid item xs={12} md={6}>
-                    <RHFSelect name="semester" label="Semester">
-                        {SEMESTER_OPTIONS.map((option) => (
-                            <MenuItem
-                                key={option}
-                                value={option}
-                            >
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </RHFSelect>
-                </Grid>
-                <Grid item xs={12} md={6}>
+            <Stack direction="row" sx={{ pb: 2 }}>
+                <Grid item xs={12} md={12}>
                     <RHFSelect name="addedGrade" label="Grade">
                         {GRADE_OPTIONS.map((option) => (
                             <MenuItem

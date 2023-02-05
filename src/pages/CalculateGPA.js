@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocalStorage } from 'react-use';
 // components
 import { Grid, Stack, Snackbar, Alert, Typography } from '@mui/material'
 import GradeForm from '../components/GradeForm';
@@ -7,13 +8,9 @@ import LineChart from '../components/LineChart';
 
 export default function CalculateGPA() {
 
-    function createData(semester, subject, grade) {
-        return { semester, subject, grade }
-    }
-
-    const [firstSemesterRows, setFirstSemesterRows] = React.useState([]);
-    const [secondSemesterRows, setSecondSemesterRows] = React.useState([{ semester: '1/2022', subject: 'CSX 4107 Web Application Development', grade: 'A' }]);
-    const [thirdSemesterRows, setThirdSemesterRows] = React.useState([]);
+    let [firstSemesterRows, setFirstSemesterRows] = useLocalStorage('firstSemesterRows', [])
+    let [secondSemesterRows, setSecondSemesterRows] = useLocalStorage('secondSemesterRows', [{ semester: '1/2022', subject: 'CSX 4107 Web Application Development', grade: 'A' }])
+    let [thirdSemesterRows, setThirdSemesterRows] = useLocalStorage('thirdSemesterRows', [])
 
     const [firstSemGPA, setFirstSemGPA] = React.useState(0);
     const [firstSemCourse, setFirstSemCourse] = React.useState(0);
@@ -21,7 +18,7 @@ export default function CalculateGPA() {
     const [secondSemCourse, setSecondSemCourse] = React.useState(0);
     const [thirdSemGPA, setThirdSemGPA] = React.useState(0);
     const [thirdSemCourse, setThirdSemCourse] = React.useState(0);
-    const [totalGPA, setTotalGPA] = React.useState(4);
+    const [totalGPA, setTotalGPA] = React.useState(0);
 
     const grades = {
         'A': 4,
@@ -37,43 +34,37 @@ export default function CalculateGPA() {
         'W': 0,
     }
 
-    // Add new row
+    // Handle adding new course
+    function createData(semester, subject, grade) {
+        return { semester, subject, grade }
+    }
+
     function handleAdd(data) {
+
         const { semester, subject, addedGrade } = data;
         if (semester === '1/2022') {
             if (!firstSemesterRows.some((row) => row.subject === subject)) {
                 setFirstSemesterRows([...firstSemesterRows, createData(semester, subject, addedGrade)]);
-                if (addedGrade !== 'W') {
-                    setFirstSemGPA(firstSemGPA + grades[addedGrade]);
-                    setFirstSemCourse(firstSemCourse + 1);
-                }
             } else {
                 setOpen(true);
             }
         } else if (semester === '2/2022') {
             if (!secondSemesterRows.some((row) => row.subject === subject)) {
                 setSecondSemesterRows([...secondSemesterRows, createData(semester, subject, addedGrade)]);
-                if (addedGrade !== 'W') {
-                    setSecondSemCourse(secondSemCourse + 1);
-                    setSecondSemGPA(secondSemGPA + grades[addedGrade]);
-                }
             } else {
                 setOpen(true);
             }
         } else if (semester === '3/2022') {
             if (!thirdSemesterRows.some((row) => row.subject === subject)) {
                 setThirdSemesterRows([...thirdSemesterRows, createData(semester, subject, addedGrade)]);
-                if (addedGrade !== 'W') {
-                    setThirdSemGPA(thirdSemGPA + grades[addedGrade]);
-                    setThirdSemCourse(thirdSemCourse + 1);
-                }
             } else {
                 setOpen(true);
             }
         }
+
     }
 
-    // Snackbars
+    // Snackbars warning
     const [open, setOpen] = React.useState(false);
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
@@ -82,54 +73,68 @@ export default function CalculateGPA() {
         setOpen(false);
     };
 
+
     React.useEffect(() => {
+        setFirstSemGPA(0)
+        setFirstSemCourse(0)
+        setSecondSemGPA(0)
+        setSecondSemCourse(0)
+        setThirdSemGPA(0)
+        setThirdSemCourse(0)
 
         firstSemesterRows.map(row => {
             if (row.grade !== 'W') {
-                setFirstSemGPA(firstSemGPA + grades[row.grade])
-                setFirstSemCourse(firstSemCourse + 1);
+                setFirstSemGPA(firstSemGPA => firstSemGPA + grades[row.grade])
+                setFirstSemCourse(firstSemCourse => firstSemCourse + 1);
             }
+            return 0
         });
 
         secondSemesterRows.map(row => {
             if (row.grade !== 'W') {
-                setSecondSemGPA(secondSemGPA + grades[row.grade])
-                setSecondSemCourse(secondSemCourse + 1);
+                setSecondSemGPA(secondSemGPA => secondSemGPA + grades[row.grade])
+                setSecondSemCourse(secondSemCourse => secondSemCourse + 1);
             }
+            return 0
         });
 
         thirdSemesterRows.map(row => {
             if (row.grade !== 'W') {
-                setThirdSemGPA(thirdSemGPA + grades[row.grade])
-                setThirdSemCourse(thirdSemCourse + 1);
+                setThirdSemGPA(thirdSemGPA => thirdSemGPA + grades[row.grade])
+                setThirdSemCourse(thirdSemCourse => thirdSemCourse + 1);
             }
+            return 0
         });
 
     }, [firstSemesterRows, secondSemesterRows, thirdSemesterRows]);
 
+
     React.useEffect(() => {
-        let tempGPA = 0;
-        let tempSem = 0;
+        let tempSem = 0
+        let tempGPA = 0
 
         if (firstSemCourse > 0) {
-            tempGPA += (firstSemGPA / firstSemCourse);
-            tempSem += 1;
-        }
-        if (secondSemCourse > 0) {
-            tempGPA += (secondSemGPA / secondSemCourse);
-            tempSem += 1;
-        }
-        if (thirdSemCourse > 0) {
-            tempGPA += (thirdSemGPA / thirdSemCourse);
-            tempSem += 1;
-        }
-        if (tempSem === 0) {
-            setTotalGPA(0);
-        } else {
-            setTotalGPA((tempGPA / tempSem));
+            tempGPA += firstSemGPA / firstSemCourse
+            tempSem += 1
         }
 
-    }, [firstSemCourse, secondSemCourse, thirdSemCourse])
+        if (secondSemCourse > 0) {
+            tempGPA += secondSemGPA / secondSemCourse
+            tempSem += 1
+        }
+
+        if (thirdSemCourse > 0) {
+            tempGPA += thirdSemGPA / thirdSemCourse
+            tempSem += 1
+        }
+
+        if (tempSem > 0) {
+            setTotalGPA(tempGPA / tempSem)
+        } else {
+            setTotalGPA(0)
+        }
+
+    }, [firstSemGPA, firstSemCourse, secondSemGPA, secondSemCourse, thirdSemGPA, thirdSemCourse])
 
     return (
         <>
@@ -152,7 +157,7 @@ export default function CalculateGPA() {
                             The course already exists!
                         </Alert>
                     </Snackbar>
-                    <Grid item xs={12} md={12}>
+                    <Grid item xs={12} md={12} sx={{mt: 2}}>
                         <LineChart firstSemGPA={(firstSemGPA / firstSemCourse)} secondSemGPA={(secondSemGPA / secondSemCourse)} thirdSemGPA={(thirdSemGPA / thirdSemCourse)} />
                     </Grid>
                 </Grid>
