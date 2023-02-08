@@ -1,54 +1,25 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
 
-## 🚀 Quick start
+# Grade Tracker
 
-1.  **Create a Gatsby site.**
+A grade tracker page for user to input graded information and calculate semester GPA along with Total GPA(GPAX) at the same time
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+## Screenshots
 
-2.  **Start developing.**
+![App Screenshot](https://www.linkpicture.com/q/1_init.png)
+Once the website is opened, there will a form on the left for user to select and add the course to a specific semester.
 
-    Navigate into your new site’s directory and start it up.
+![App Screenshot](https://www.linkpicture.com/q/2_formCheck.png)
+If user did not fill the form correctly and try to add a course, it will not allow and show the warning at the section that user need to input. 
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+![App Screenshot](https://www.linkpicture.com/q/3_addedCourse.png)
+Once the course is added, Semester and Total GPA will be recalculated and the line graph will rearrange according the input.
 
-3.  **Open the code and start customizing!**
+![App Screenshot](https://www.linkpicture.com/q/4_handleDuplicate.png)
+Lastly, if user accidently added existing course, it will prevent the user to do so and show an error message at the bottom left.
+## Authors
 
-    Your site is now running at http://localhost:8000!
+- [@Piyaphon Wu](https://www.github.com/wpiyaphon)
 
-    Edit `src/pages/index.js` to see your site update in real-time!
 
-4.  **Learn more**
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
