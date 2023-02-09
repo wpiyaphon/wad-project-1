@@ -1,8 +1,10 @@
 import React from 'react'
+// @mui
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // components
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Stack } from '@mui/material'
 
-export default function GradeTable({ semester, rows, semesterGPA }) {
+export default function GradeTable({ semester, rows, semesterGPA, onDelete }) {
 
     return (
         <TableContainer component={Paper} elevation={2}>
@@ -25,7 +27,12 @@ export default function GradeTable({ semester, rows, semesterGPA }) {
                             key={row.semester.concat(' ', row.subject)}
 
                         >
-                            <TableCell component="th" scope="row">{row.subject.substr(0, 8)}</TableCell>
+                            <TableCell component="th" scope="row">
+                                <Stack direction="row" alignItems="center">
+                                    <DeleteOutlineIcon onClick={() => onDelete(row)} />
+                                    {row.subject.substr(0, 8)}
+                                </Stack>
+                            </TableCell>
                             <TableCell>{row.subject.substr(8)}</TableCell>
                             <TableCell align="right">{row.grade}</TableCell>
                         </TableRow>

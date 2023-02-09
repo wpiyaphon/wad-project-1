@@ -1,10 +1,13 @@
 
-# Grade Tracker
+# Grade Tracker Project
 
 A grade tracker page for user to input graded information and calculate semester GPA along with Total GPA(GPAX) at the same time
 
+## Authors
 
-## Screenshots
+- [@Piyaphon Wu](https://www.github.com/wpiyaphon)
+
+## Features
 
 ![App Screenshot](https://www.linkpicture.com/q/1_init.png)
 Once the website is opened, there will a form on the left for user to select and add the course to a specific semester.
@@ -17,9 +20,10 @@ Once the course is added, Semester and Total GPA will be recalculated and the li
 
 ![App Screenshot](https://www.linkpicture.com/q/4_handleDuplicate.png)
 Lastly, if user accidently added existing course, it will prevent the user to do so and show an error message at the bottom left.
-## Authors
 
-- [@Piyaphon Wu](https://www.github.com/wpiyaphon)
+## Tech Stack
+
+**Front-end:** React, Material UI, Chart.js, 
 
 
 

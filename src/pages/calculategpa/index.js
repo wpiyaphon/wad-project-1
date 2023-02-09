@@ -9,7 +9,7 @@ import LineChart from '../../components/LineChart';
 export default function CalculateGPAPage() {
 
     let [firstSemesterRows, setFirstSemesterRows] = useLocalStorage('firstSemesterRows', [])
-    let [secondSemesterRows, setSecondSemesterRows] = useLocalStorage('secondSemesterRows', [{ semester: '1/2022', subject: 'CSX 4107 Web Application Development', grade: 'A' }])
+    let [secondSemesterRows, setSecondSemesterRows] = useLocalStorage('secondSemesterRows', [])
     let [thirdSemesterRows, setThirdSemesterRows] = useLocalStorage('thirdSemesterRows', [])
 
     const [firstSemGPA, setFirstSemGPA] = React.useState(0);
@@ -39,6 +39,16 @@ export default function CalculateGPAPage() {
         return { semester, subject, grade }
     }
 
+    function handleDelete({ semester, subject, grade }) {
+        if (semester === '1/2022') {
+            setFirstSemesterRows(firstSemesterRows.filter((row) => (row.subject !== subject)))
+        } else if (semester === '2/2022') {
+            setSecondSemesterRows(secondSemesterRows.filter((row) => (row.subject !== subject)))
+        } else if (semester === '3/2022') {
+            setThirdSemesterRows(thirdSemesterRows.filter((row) => (row.subject!== subject)))
+        }
+    }
+
     function handleAdd(data) {
 
         const { semester, subject, addedGrade } = data;
@@ -61,7 +71,6 @@ export default function CalculateGPAPage() {
                 setOpen(true);
             }
         }
-
     }
 
     // Snackbars warning
@@ -138,7 +147,7 @@ export default function CalculateGPAPage() {
 
     return (
         <>
-            <Grid container direction="row" alignItems="flex-end" sx={{ p: 3, pb: 0 }} spacing={2}>
+            <Grid container direction="row" alignItems="flex-end" sx={{ p: 3, pb: 0 }} spacing={2} >
                 <Grid item xs={12} md={5}>
                     <Typography variant="h4">GPA Calculator</Typography>
                 </Grid>
@@ -157,15 +166,15 @@ export default function CalculateGPAPage() {
                             The course already exists!
                         </Alert>
                     </Snackbar>
-                    <Grid item xs={12} md={12} sx={{mt: 2}}>
+                    <Grid item xs={12} md={12} sx={{ mt: 2 }}>
                         <LineChart firstSemGPA={(firstSemGPA / firstSemCourse)} secondSemGPA={(secondSemGPA / secondSemCourse)} thirdSemGPA={(thirdSemGPA / thirdSemCourse)} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} md={7}>
                     <Stack direction="column" spacing={2}>
-                        <GradeTable semester='1/2022' rows={firstSemesterRows} semesterGPA={(firstSemGPA / firstSemCourse).toFixed(2)}></GradeTable>
-                        <GradeTable semester='2/2022' rows={secondSemesterRows} semesterGPA={(secondSemGPA / secondSemCourse).toFixed(2)}></GradeTable>
-                        <GradeTable semester='3/2022' rows={thirdSemesterRows} semesterGPA={(thirdSemGPA / thirdSemCourse).toFixed(2)}></GradeTable>
+                        <GradeTable semester='1/2022' rows={firstSemesterRows} semesterGPA={(firstSemGPA / firstSemCourse).toFixed(2)} onDelete={handleDelete}></GradeTable>
+                        <GradeTable semester='2/2022' rows={secondSemesterRows} semesterGPA={(secondSemGPA / secondSemCourse).toFixed(2)} onDelete={handleDelete}></GradeTable>
+                        <GradeTable semester='3/2022' rows={thirdSemesterRows} semesterGPA={(thirdSemGPA / thirdSemCourse).toFixed(2)} onDelete={handleDelete}></GradeTable>
                     </Stack>
                 </Grid>
             </Grid>

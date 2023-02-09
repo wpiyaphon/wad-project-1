@@ -2,8 +2,8 @@ import React from 'react'
 // form
 import { useForm, FormProvider } from "react-hook-form";
 // components
-import RHFSelect from './RHFSelect'
 import { MenuItem, Grid, Button, Stack } from '@mui/material'
+import RHFSelect from './RHFSelect'
 // assets
 import { CSCourses, ITCourses } from '../assets'
 
