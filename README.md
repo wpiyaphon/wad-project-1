@@ -28,4 +28,4 @@ If user accidently added existing course, it will prevent the user to do so and 
 Once the course is added or deleted, Semester and Total GPA will be recalculated and the line graph will be rearranged according the input.
 ## Tech Stack
 
-![App Screenshot](https://github-readme-tech-stack.vercel.app/api/cards?lineCount=1&theme=tokyonight&line1=HTML5,HTML5,auto;CSS3,CSS3,auto;Javascript,Javascript,auto;react,react,auto;MUI,MUI,auto;)
+![Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?lineCount=2&theme=tokyonight&line1=HTML5,HTML5,auto;CSS3,CSS3,auto;Javascript,Javascript,auto;&line2=react,react,auto;MUI,MUI,auto;)
